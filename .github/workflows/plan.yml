@@ -57,12 +57,6 @@ jobs:
           git config --global user.email "shishirkc.ccr@gmail.com"
           git config --global user.name "Shishir"
 
-      - name: Commit Generated files
-        if: steps.list.outputs.stdout
-        run: |
-          git add .
-          git commit -m "Commit generated Terramate files"
-          git push
 
       - name: Run Terraform Commands on Changed Stacks
         if: steps.list.outputs.stdout
