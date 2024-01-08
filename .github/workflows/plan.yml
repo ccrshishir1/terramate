@@ -57,9 +57,9 @@ jobs:
           git commit -m "Commit generated Terramate files"
           git push
 
-      - name: Create Terraform plan on changed stacks
+      - name: Run Terraform Commands on Changed Stacks
         if: steps.list.outputs.stdout
-        run: 
+        run: |
           terramate run --changed -- terraform init
           terramate run --changed -- terraform validate
           terramate run --changed -- terraform plan -out out.tfplan
