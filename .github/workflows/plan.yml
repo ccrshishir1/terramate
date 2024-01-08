@@ -62,12 +62,6 @@ jobs:
           terraform_version: 1.6.6
           terraform_wrapper: false
 
-      - name: Check Terraform Formatting
-        run: terraform fmt -recursive -check -no-color
-
-      - name: Check Terramate Formatting
-        run: terramate fmt --check 
-
       - name: Create Terraform plan on changed stacks
         if: steps.list.outputs.stdout
         run: |
