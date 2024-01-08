@@ -19,6 +19,9 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
+      
+      - name: Clean Workspace
+        run: git clean -ffdx
 
       - name: Install tools using asdf
         uses: asdf-vm/actions/install@v2.2.0
@@ -39,6 +42,9 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
+      - name: Clear Terramate Cache
+        run: terramate cache clear      
 
       - name: Create Terraform plan on changed stacks
         if: steps.list.outputs.stdout
