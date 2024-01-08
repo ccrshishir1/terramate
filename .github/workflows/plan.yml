@@ -45,6 +45,11 @@ jobs:
         run: |
           terramate generate
 
+      - name: Configure Git Identity
+        run: |
+          git config --global user.email "shishirkc.ccr@gmail.com"
+          git config --global user.name "Shishir"
+
       - name: Commit Generated files
         if: steps.list.outputs.stdout
         run: |
