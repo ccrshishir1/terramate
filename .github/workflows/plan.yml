@@ -64,6 +64,13 @@ jobs:
           terramate run --changed -- terraform init
           terramate run --changed -- terraform validate
           terramate run --changed -- terraform plan -out out.tfplan
+     
+      - name: Commit Generated Files
+        if: steps.list.outputs.stdout
+        run: |
+          git add .
+          git commit -m "Commit generated Terramate files"
+          git push 
 
       - name: Generate Preview Comment
         if: steps.list.outputs.stdout
