@@ -65,7 +65,6 @@ jobs:
       - name: Create Terraform plan on changed stacks
         if: steps.list.outputs.stdout
         run: |
-          terramate run -- terraform init
           terramate generate
           terramate run --changed -- terraform init
           terramate run --changed -- terraform validate
