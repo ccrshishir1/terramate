@@ -40,10 +40,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Create Terraform plan on changed stacks
+      - name: Generate files
         if: steps.list.outputs.stdout
         run: |
           terramate generate
+
+      - name: Commit Generated files
+        if: steps.list.outputs.stdout
+        run: |
+          git add .
+          git commit -m "Commit generated Terramate files"
+          git push
+
+      - name: Create Terraform plan on changed stacks
+        if: steps.list.outputs.stdout
+        run: 
           terramate run --changed -- terraform init
           terramate run --changed -- terraform validate
           terramate run --changed -- terraform plan -out out.tfplan
