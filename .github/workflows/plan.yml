@@ -20,6 +20,9 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
+      - name: Clean Workspace
+        run: git clean -ffdx
+
       - name: Install tools using asdf
         uses: asdf-vm/actions/install@v2.2.0
 
@@ -44,6 +47,10 @@ jobs:
         if: steps.list.outputs.stdout
         run: |
           terramate generate
+
+      - name: Wait for File Generation
+        if: steps.list.outputs.stdout
+        run: sleep 5  # Adjust the delay as needed
 
       - name: Configure Git Identity
         run: |
