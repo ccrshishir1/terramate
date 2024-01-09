@@ -3,6 +3,6 @@ globals {
 }
 
 globals {
-  bucket_name = "terramate-shishir-demo"
+  bucket_name = "terramate-dmoe-bucket-123"
 }
 
