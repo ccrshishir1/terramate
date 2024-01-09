@@ -20,9 +20,6 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Clean Workspace
-        run: git clean -ffdx
-
       - name: Install tools using asdf
         uses: asdf-vm/actions/install@v2.2.0
 
@@ -43,34 +40,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Generate files
+      - name: Create Terraform plan on changed stacks
         if: steps.list.outputs.stdout
         run: |
           terramate generate
-
-      - name: Wait for File Generation
-        if: steps.list.outputs.stdout
-        run: sleep 5  # Adjust the delay as needed
-
-      - name: Configure Git Identity
-        run: |
-          git config --global user.email "shishirkc.ccr@gmail.com"
-          git config --global user.name "Shishir"
-
-
-      - name: Run Terraform Commands on Changed Stacks
-        if: steps.list.outputs.stdout
-        run: |
           terramate run --changed -- terraform init
-
-       - name: Commit Generated Files
-        if: steps.list.outputs.stdout
-        run: |
-          git add .
-          git commit -m "Commit generated Terramate files"
-          git push
+          terramate run --changed -- terraform validate
           terramate run --changed -- terraform plan -out out.tfplan
-     
 
       - name: Generate Preview Comment
         if: steps.list.outputs.stdout
